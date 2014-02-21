@@ -127,7 +127,7 @@ public class TestTimesag {
     processor.endProcess();
     String report = processor.getReport();
     //             Week   1 :   14.5 hours   (  2 Wdays of   7.3  d=501.9)
-    assertEquals( "Week   2 :    8,0 hours   (  5 Wdays of   8,0  d=-29,4)", report );  
+    assertEquals( "Week   2 :    8.0 hours   (  5 Wdays of   8.0  d=-29.4)", report );  
   }
 
   private void processWeek2With8HoursWorkOnTaskN4C() {
