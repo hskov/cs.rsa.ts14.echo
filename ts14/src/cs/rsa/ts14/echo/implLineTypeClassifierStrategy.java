@@ -1,4 +1,7 @@
-package cs.rsa.ts14.framework;
+package cs.rsa.ts14.echo;
+
+import cs.rsa.ts14.framework.LineType;
+import cs.rsa.ts14.framework.LineTypeClassifierStrategy;
 
 public class implLineTypeClassifierStrategy implements
 		LineTypeClassifierStrategy {
@@ -7,7 +10,7 @@ public class implLineTypeClassifierStrategy implements
 	
 	@Override
 	public LineType classify(String line) {
-		LineType type = LineType.INVALID_LINE;
+		LineType type = null;
 		
 		// Week specification line
 		if(line.matches("^Week\\s[1-9][0-2]*\\s+:\\s+[0-9]\\s+:\\s+[0-9]$"))
@@ -30,7 +33,7 @@ public class implLineTypeClassifierStrategy implements
 			type = LineType.ASSIGNMENT_LINE;
 		}
 		// Empty line
-		else if(line.length() == 0)
+		else if(line.trim().length() == 0)
 		{
 			type = LineType.EMPTY_LINE;
 		}
@@ -43,7 +46,6 @@ public class implLineTypeClassifierStrategy implements
 		{
 			type = LineType.INVALID_LINE;
 		
-			//TODO: ADD DETAILS ABOUT THE LINE
 			lastError = line + " - Line does not conform to specification.";
 		}
 		
