@@ -23,12 +23,12 @@ public class implLineTypeClassifierStrategy implements
 			 type = LineType.WEEKDAY_SPECIFICATION;
 		}
 		// Work specification line
-		else if(line.matches("^\\s[a-zæøåA-ZÆØÅ]\\w*\\s+([a-zæøåA-ZÆØÅ]{1,}|-)\\s+\\d+(\\.5)?$"))
+		else if(line.matches("^\\s[a-zï¿½ï¿½ï¿½A-Zï¿½ï¿½ï¿½]\\w*\\s+([a-zï¿½ï¿½ï¿½A-Zï¿½ï¿½ï¿½]{1,}|-)\\s+\\d+(\\.5)?$"))
 		{
 			type = LineType.WORK_SPECIFICATION;
 		}
 		// Assignment specification line
-		else if(line.matches("^[a-zæøåA-ZÆØÅ]+\\s+=\\s+\\d+([.,]{1}\\d+){0,1}?$")) 
+		else if(line.matches("^[a-zï¿½ï¿½ï¿½A-Zï¿½ï¿½ï¿½]+\\s+=\\s+\\d+([.,]{1}\\d+){0,1}?$")) 
 		{
 			type = LineType.ASSIGNMENT_LINE;
 		}
