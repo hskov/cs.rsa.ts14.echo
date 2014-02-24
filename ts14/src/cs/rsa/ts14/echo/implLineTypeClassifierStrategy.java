@@ -28,7 +28,7 @@ public class implLineTypeClassifierStrategy implements
 			type = LineType.WORK_SPECIFICATION;
 		}
 		// Assignment specification line
-		else if(line.matches("^[a-zæøåA-ZÆØÅ]+\\s+=\\s+\\d+?$")) 
+		else if(line.matches("^[a-zæøåA-ZÆØÅ]+\\s+=\\s+\\d+([.,]{1}\\d+){0,1}?$")) 
 		{
 			type = LineType.ASSIGNMENT_LINE;
 		}
@@ -38,7 +38,7 @@ public class implLineTypeClassifierStrategy implements
 			type = LineType.EMPTY_LINE;
 		}
 		// Comment line
-		else if(line.matches("^#.*$"))
+		else if(line.matches("^\\s*#.*$"))
 		{
 			type = LineType.COMMENT_LINE;
 		}
