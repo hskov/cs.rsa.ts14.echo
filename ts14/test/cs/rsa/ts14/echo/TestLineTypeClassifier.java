@@ -71,18 +71,9 @@ public class TestLineTypeClassifier {
 		  assertEquals(LineType.COMMENT_LINE, theLineType);
 	}  
 	
-	/*
-	Empty lines and comment - Test Case ID 105
-	@Test  
-		public void shouldNotAcceptAssignmentAsCommentLine() {
-		   line = "HoursOvertime = 10";
-		   LineType theLineType = processor.process(line);
-		   assertEquals(LineType.COMMENT_LINE, theLineType);
-	}  
-    */ 
 	
-	/*Test Case ID 201: Assignment-line with correct semantic and 
-	 * syntax should be validated and categorized as assignment line
+	/*Test Case ID 201: 
+	 * 
 	*/
 	@Test  
 		public void shouldAcceptWellformedAssignmentLine() {
@@ -412,21 +403,100 @@ public class TestLineTypeClassifier {
 	 * 
 	 */
 	@Test  
-		public void shouldAcceptWellformedWorkLineWithSpaceStringAndInteger() {
+		public void shouldAcceptWellformedWorkLineWithThreeTokens() {
 		  line = " mtt  plan  2";
 	      LineType theLineType = processor.process(line);
-	      assertEquals(LineType.INVALID_LINE, theLineType);
+	      assertEquals(LineType.WORK_SPECIFICATION, theLineType);
 	}
   
-    /*Test Case ID 501:
+    /*Test Case ID 502:
 	 * 
 	 */
 	@Test  
-		public void shouldAcceptWellformedWorkLineWithSpaceCharAndDouble() {
-		  line = " adm  - 0.5";
+		public void shouldAcceptWellformedWorkLineWithMoreThanThreeTokens() {
+		  line = " sa	-	3.5	forb question";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WORK_SPECIFICATION, theLineType);
+	}
+  
+	/*Test Case ID 503:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithNoSpace() {
+		  line = "mtt	plan	2";
 	      LineType theLineType = processor.process(line);
 	      assertEquals(LineType.INVALID_LINE, theLineType);
 	}
-  
-  
+	
+
+	/*Test Case ID 504:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithOnlyTwoTokens() {
+		  line = " mtt	plan";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 505:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithNoLetterFirstToken() {
+		  line = " -     plan	   2.5";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 506:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithNoLetterSecondToken() {
+		  line = " sa	4	3.5        test";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 507:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithNoHyphenSecondToken() {
+		  line = " mtt	:	2";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 508:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithNegativeThirdToken() {
+		  line = " mtt	plan	-2";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 509:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithInvalidRangeThirdToken() {
+		  line = " adm	-	0.3";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+	
+	/*Test Case ID 510:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWorkLineWithInvalidDecimalThirdToken() {
+		  line = " adm	-	0.3345435345  test";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	} 
 }
