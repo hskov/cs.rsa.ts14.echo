@@ -18,10 +18,11 @@ public class TestLineTypeClassifier {
 	
 	@Before
 	public void setup() {
-		classifier = new implLineTypeClassifierStrategy();
-		builder = new SpyWorkloadBuilder();
-		sequenceState = new LineSequenceStateStub();
-		processor = 
+	   
+	classifier = new implLineTypeClassifierStrategy();
+	builder = new SpyWorkloadBuilder();
+	sequenceState = new LineSequenceStateStub();
+	processor = 
 	        new StandardTimesagLineProcessor( classifier, builder, sequenceState );
 	}
 	
@@ -140,4 +141,292 @@ public class TestLineTypeClassifier {
 	      assertEquals(LineType.INVALID_LINE, theLineType);
 	}
 	
+  
+  
+  /*Test Case ID 301:
+   * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekLineWithMinHours() {
+		  line = "Week 1 :      0  :     0";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEK_SPECIFICATION, theLineType);
+	}
+  
+  /*Test Case ID 302:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutLastToken() {
+		  line = "Week 1 :      0  :";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 303:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithExtraToken() {
+		  line = "Week 1 :      0  :     0   0";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 304:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutWeekNumberAsInteger() {
+		  line = "Week x :      0  :      0";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 305:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutDaysWorkedAsNumericValue() {
+		  line = "Week 1 :      Y  :      0";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   /*Test Case ID 306:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutDaysOnVacationAsNumericValue() {
+		  line = "Week 1 :      0  :      +";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  
+   /*Test Case ID 307:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutWellformedFirstToken() {
+		  line = "Wee 1 :         1 :     1";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 308:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutWellformedThirdToken() {
+		  line = "Week 3 ^      1 :      1";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   /*Test Case ID 309:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithoutWellformedFifthToken() {
+		  line = "Week 3 :       1 .      1";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   /*Test Case ID 310:
+   * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekLineWithMaxHours() {
+		  line = "Week 52  :     5 :     5";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEK_SPECIFICATION, theLineType);
+	}
+  
+  /*Test Case ID 311:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidWeekNumberZero() {
+		  line = "Week 0 :      2 :       2";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 312:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidWeekNumberFiftyThree() {
+		  line = "Week 53 :   2 :       2";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  /*Test Case ID 313:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidFourthTokenNegativeValue() {
+		  line = "Week 7 :     -1 :     1";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   /*Test Case ID 314:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidSixthTokenNegativeValue() {
+		  line = "Week 7 :      1 :    -1";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   
+   /*Test Case ID 315:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidFourthTokenOverMax() {
+		  line = "Week 40 :    6 :     4";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   
+   /*Test Case ID 316:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissWeekLineWithInvalidSixthTokenOverMax() {
+		  line = "Week 40 :    4 :     6";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+   
+   /*Test Case ID 401:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithMondayBike() {
+		  line = "Mon    Bi";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+   /*Test Case ID 402:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithTuesdayCarStuff() {
+		  line = "Tue    Ca    Stuff";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+  /*Test Case ID 403:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissFaultyWeekdayLineWithOnlyOneToken() {
+		  line = "Mon";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+   /*Test Case ID 404:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithWednesdayPublicTransport() {
+		  line = "Wed    Pu";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+   /*Test Case ID 405:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithThursdayTrain() {
+		  line = "Thu    Tr";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+   
+   /*Test Case ID 406:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithFridayNonWorkDay() {
+		  line = "Fri    No";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+    /*Test Case ID 407:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithSaturdayHome() {
+		  line = "Sat    Ho";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+    /*Test Case ID 408:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWeekdayLineWithSundayBike() {
+		  line = "Sun    Bi";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.WEEKDAY_SPECIFICATION, theLineType);
+	}
+  
+    /*Test Case ID 409:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissFaultyWeekdayLineWithIllegalFirstToken() {
+		  line = "abc    Bi";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  
+    /*Test Case ID 410:
+	 * 
+	 */
+	@Test  
+		public void shouldDismissFaultyWeekdayLineWithIllegalSecondToken() {
+		  line = "Sun    ab";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+    /*Test Case ID 501:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWorkLineWithSpaceStringAndInteger() {
+		  line = " mtt  plan  2";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+    /*Test Case ID 501:
+	 * 
+	 */
+	@Test  
+		public void shouldAcceptWellformedWorkLineWithSpaceCharAndDouble() {
+		  line = " adm  - 0.5";
+	      LineType theLineType = processor.process(line);
+	      assertEquals(LineType.INVALID_LINE, theLineType);
+	}
+  
+  
 }
