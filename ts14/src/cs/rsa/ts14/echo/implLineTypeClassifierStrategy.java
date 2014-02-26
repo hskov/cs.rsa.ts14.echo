@@ -13,7 +13,7 @@ public class implLineTypeClassifierStrategy implements
 		LineType type = null;
 		
 		// Week specification line
-		if(line.matches("^Week\\s[1-9][0-2]*\\s+:\\s+[0-9]\\s+:\\s+[0-9]$"))
+		if(line.matches("^Week\\s[1-9][0-2]{0,1}\\s+:\\s+[0-5]\\s+:\\s+[0-5]$"))
 		{
 			type = LineType.WEEK_SPECIFICATION;
 		}
@@ -23,7 +23,7 @@ public class implLineTypeClassifierStrategy implements
 			 type = LineType.WEEKDAY_SPECIFICATION;
 		}
 		// Work specification line
-		else if(line.matches("^\\s[a-zזרוA-Zֶ״ֵ]\\w*\\s+([a-zזרוA-Zֶ״ֵ]{1,}|-)\\s+\\d+(\\.5)?$"))
+		else if(line.matches("^\\s[a-zזרוA-Zֶ״ֵ]\\w*\\s+([a-zזרוA-Zֶ״ֵ]{1,}|-)\\s+\\d+(\\.5)?(\\s+.*)?$"))
 		{
 			type = LineType.WORK_SPECIFICATION;
 		}
