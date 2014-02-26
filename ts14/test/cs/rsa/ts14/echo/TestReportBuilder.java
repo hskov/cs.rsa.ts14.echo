@@ -6,8 +6,6 @@ import cs.rsa.ts14.doubles.*;
 import cs.rsa.ts14.framework.*;
 import cs.rsa.ts14.standard.StandardTimesagLineProcessor;
 import static org.junit.Assert.*; 
-//import java.util.regex.Pattern;
-//import java.util.regex.Matcher;
 
 
 public class TestReportBuilder {
@@ -16,7 +14,7 @@ public class TestReportBuilder {
 	private LineTypeClassifierStrategy classifier;
 	private LineSequenceState sequenceState;
 	private WeekOverviewBuilder builder;
-	private String line;
+	private String newline = System.getProperty("line.separator"); 
 	
 	@Before
 	public void setup() {
@@ -40,15 +38,10 @@ public class TestReportBuilder {
 		builder.buildWorkSpecification("es", "-", 7);
 		builder.buildEnd();
 		
-		//System.out.println(builder.getResult());
+		String expectedOutput = "=== Week Overview ===" + newline;
+		expectedOutput += "Week   9 :   12.0 hours   (  3 Wdays of   4.0 d=45.3)" + newline;
+		expectedOutput += "Week  10 :    7.0 hours   (  0 Wdays of   0.0 d=52.3)";
 		
-		line = builder.getResult();
-		String[] parts = line.split("\n");
-		String REGEX = "^Week\\s[1-9][0-2]*";
-		//Pattern p1 = Pattern.compile(REGEX); 
-		
-		//Kan man bruge assertEquals til test med regex???
-		assertEquals(parts[0], "=== Week Overview ===");
-		//assertEquals(parts[1], REGEX);
+		assertEquals(builder.getResult(), expectedOutput);
 	}
 }
