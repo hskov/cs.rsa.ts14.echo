@@ -17,6 +17,7 @@ package cs.rsa.ts14.Golf.statemachine;
 
 import cs.rsa.ts14.framework.LineSequenceState;
 import cs.rsa.ts14.framework.LineType;
+import cs.rsa.ts14.statemachine.IllegalState;
 
 /** Define a ConcreteState for the LineSequenceState
  * 
