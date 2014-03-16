@@ -2,15 +2,12 @@ package cs.rsa.ts14.echo;
 
 import static org.junit.Assert.*;
 
-import java.io.Console;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import cs.rsa.ts14.Golf.statemachine.InitialState;
-import cs.rsa.ts14.echo.implLineTypeClassifierStrategy;
-import cs.rsa.ts14.framework.TimesagLineProcessor;
 import cs.rsa.ts14.foxtrot.CategoryReportImpl;
+import cs.rsa.ts14.framework.TimesagLineProcessor;
 import cs.rsa.ts14.standard.StandardTimesagLineProcessor;
 
 public class BottomUpIntegrationCategoryReport {
@@ -33,10 +30,10 @@ public class BottomUpIntegrationCategoryReport {
 	}
 	
 	@Test
-	public void testCategoryReportIntegration() {
+	public void testCategoryReportGeneration() {
 		processor.beginProcess();
-		processor.process("# Timesag system for NN 2013");
 		
+		processor.process("# Timesag system for NN 2013");
 		processor.process("	");
 		processor.process("# ===================================== Karakteristika for år");
 		processor.process("HoursOvertime = 502.2");
@@ -97,7 +94,8 @@ public class BottomUpIntegrationCategoryReport {
 		processor.process("Fri		Ca				8.00-16.30");
 		processor.process("	adm		-		0.5");
         processor.process("	censor		-		0.5");
-        processor.process("	n4c		e2e		3");
+        //processor.process("	n4c		e2e		3");
+        processor.process("	n4c		ee		3");
         processor.process("");
         processor.process("	sa		protokol	2");
         processor.process("	saip		-		0.5");
@@ -124,9 +122,18 @@ public class BottomUpIntegrationCategoryReport {
         processor.process("	terna		course		1.5");
         processor.process("");
 		
+        assertNull("Assert that no report is made until processing has ended.", processor.getReport());
+        
 		processor.endProcess();
-		String report = processor.getReport();
 		
+		assertFalse("Assert that a report has been generated.", processor.getReport().isEmpty());
 		
+		System.out.println("");
+		System.out.println("---   Category report - begin  ---");
+		System.out.println("");
+		System.out.println(processor.getReport());
+		System.out.println("");
+		System.out.println("---   Category report - end  ---");
+		System.out.println("");
 	}
 }
